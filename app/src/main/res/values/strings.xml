@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Eventrio</string>
+    <string name="title_activity_maps">Map</string>
+
+    <string name="heightOfTag">20dp</string>
+    <string name="facebook_app_id">543960872701904</string>
+    <string name="fb_login_protocol_scheme">fb543960872701904</string>
+    <string name="facebook_application_id" translatable="false">543960872701904</string>
+
+
+    <string name="preference_file_key">pl.aogiri.eventrio.settings</string>
+    <string name="userData_fbid">userFBid</string>
+    <string name="userData_userid">userid</string>
+    <string name="userData_username">username</string>
+    <string name="userData_picture">picture</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="settings">settings</string>
+    <string name="notification">Notifications</string>
+    <string name="mEvents">Events</string>
+    <string name="eFolower">Friends</string>
+
+    <string name="apiUser">admin</string>
+    <string name="apiPassword">password</string>
+
+
+</resources>
