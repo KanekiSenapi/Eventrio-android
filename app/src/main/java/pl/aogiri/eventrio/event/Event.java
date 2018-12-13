@@ -1,13 +1,8 @@
 package pl.aogiri.eventrio.event;
 
-import android.util.Base64;
-
-import java.sql.Blob;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +39,7 @@ public class Event {
     private List<Tag> tags;
 
     private List<Comment> comments;
+
 
     public Event() {
     }
@@ -158,6 +154,14 @@ public class Event {
     public String getDescription() {
         return description;
     }
+
+    public String getDescriptionSub() {
+        if (description.length()>30)
+            return description.substring(0,29)+"...";
+        return description;
+    }
+
+
 
     public void setDescription(String description) {
         this.description = description;

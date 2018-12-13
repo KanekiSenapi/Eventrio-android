@@ -2,6 +2,7 @@ package pl.aogiri.eventrio.user;
 
 import java.util.List;
 
+import pl.aogiri.eventrio.event.Event;
 import pl.aogiri.eventrio.notifi.Notifi;
 
 public class User {
@@ -17,16 +18,18 @@ public class User {
 
     private String gender;
 
-
     private String birthday;
 
     private String fbid;
 
     private List<Notifi> notifis;
+
+    private List<Event> events;
+
     public User() {
     }
 
-    public User(String id, String email, String password, String pseudonym, String gender, String birthday,String fbid, List<Notifi> notifis) {
+    public User(String id, String email, String password, String pseudonym, String gender, String birthday,String fbid, List<Notifi> notifis, List<Event> events) {
         super();
         this.id = id;
         this.email = email;
@@ -36,6 +39,7 @@ public class User {
         this.birthday = birthday;
         this.fbid = fbid;
         this.notifis = notifis;
+        this.events = events;
     }
 
     public String getId() {
@@ -100,5 +104,13 @@ public class User {
 
     public void setNotifis(List<Notifi> notifis) {
         this.notifis = notifis;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 }
