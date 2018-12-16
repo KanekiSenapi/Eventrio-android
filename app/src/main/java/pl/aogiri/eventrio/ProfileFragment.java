@@ -27,6 +27,7 @@ import java.util.List;
 
 import pl.aogiri.eventrio.event.Event;
 import pl.aogiri.eventrio.event.EventAdapter;
+import pl.aogiri.eventrio.notifi.Notifi;
 import pl.aogiri.eventrio.notifi.NotifiAdapter;
 import pl.aogiri.eventrio.user.User;
 import pl.aogiri.eventrio.user.UserInterface;
@@ -45,20 +46,13 @@ public class ProfileFragment extends Fragment {
     private Button profileSettings;
     SharedPreferences sharedPref;
 
-    private TextView numberNotfi;
-    private TextView numberEvents;
-    private TextView numberFriends;
-    private TextView notfi;
-    private TextView event;
-    private TextView friend;
+    private TextView[][] tabs = new TextView[3][3];
+    private LinearLayout[] tabs2 = new LinearLayout[3];
 
     private ImageView profileBack;
 
     private RecyclerView recycleProfile;
 
-    private LinearLayout notfisClick;
-    private LinearLayout eventsClick;
-    private LinearLayout friendsClick;
 
 
 
@@ -106,18 +100,18 @@ public class ProfileFragment extends Fragment {
         recycleProfile = view.findViewById(R.id.recycleProfile);
         profileBack = view.findViewById(R.id.profileBack);
 
-        numberNotfi = view.findViewById(R.id.numberNotfi);
-        numberEvents = view.findViewById(R.id.numberEvents);
-        numberFriends = view.findViewById(R.id.numberFriends);
 
-        notfi = view.findViewById(R.id.notfi);
-        event = view.findViewById(R.id.event);
-        friend = view.findViewById(R.id.friend);
+        tabs[0][0] = view.findViewById(R.id.notfi);
+        tabs[1][0] = view.findViewById(R.id.event);
+        tabs[2][0] = view.findViewById(R.id.friend);
 
-        notfisClick = view.findViewById(R.id.notfisClick);
-        eventsClick = view.findViewById(R.id.eventsClick);
-        friendsClick = view.findViewById(R.id.friendsClick);
+        tabs[0][1] = view.findViewById(R.id.numberNotfi);
+        tabs[1][1] = view.findViewById(R.id.numberEvents);
+        tabs[2][1] = view.findViewById(R.id.numberFriends);
 
+        tabs2[0] = view.findViewById(R.id.notfisClick);
+        tabs2[1] = view.findViewById(R.id.eventsClick);
+        tabs2[2] = view.findViewById(R.id.friendsClick);
 
         profileBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,33 +123,48 @@ public class ProfileFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(view.getContext());
         recycleProfile.setLayoutManager(mLayoutManager);
 
-        notfisClick.setOnClickListener(new View.OnClickListener() {
+        for(int i = 0 ; i < tabs2.length ; i++){
+            tabs2[i].setOnClickListener(new TabListnear(i) {
+                public void onClick(View v) {
+                    Log.e(TAG,"clicked" + actual_card + id);
+                    if(actual_card!=id){
+                        setDisable(actual_card);
+                        tabs[id][0].setTextColor(getResources().getColor(R.color._white,null));
+                        setAdapter(id);
+                    }
+                }
+            });
+        }
+
+
+        //TODO create animation slide maybe create 3 containers preloaded
+        recycleProfile.setOnTouchListener(new OnSwipeTouchListener(getActivity()){
             @Override
-            public void onClick(View v) {
-                if(actual_card!=1) {
-                    setDisable("notfisClick");
-                    setNotifis();
+            public void onSwipeRight() {//To right
+                if(actual_card>0){
+                    setDisable(actual_card);
+                    tabs[actual_card-1][0].setTextColor(getResources().getColor(R.color._white,null));
+                    setAdapter(actual_card-1);
                 }
             }
-        });
 
-        eventsClick.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if(actual_card!=2) {
-                    setDisable("eventsClick");
-                    setEvents();
+            public void onSwipeLeft() {
+                if(actual_card<2){
+                    setDisable(actual_card);
+                    tabs[actual_card+1][0].setTextColor(getResources().getColor(R.color._white,null));
+                    setAdapter(actual_card+1);
                 }
             }
-        });
 
-        friendsClick.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if(actual_card!=3) {
-//                setDisable("friendsClick");
-                    setFriends();
-                }
+            public void onSwipeBottom() {
+                super.onSwipeBottom();
+            }
+
+            @Override
+            public void onSwipeTop() {
+                super.onSwipeTop();
             }
         });
 
@@ -166,27 +175,8 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private void setDisable(String tmp){
-        switch (actual_card){
-            case 1:
-                notfi.setTextColor(getResources().getColor(R.color.trans_white, null));
-                break;
-            case 2:
-                event.setTextColor(getResources().getColor(R.color.trans_white, null));
-                break;
-            case 3:
-                friend.setTextColor(getResources().getColor(R.color.trans_white, null));
-                break;
-        }
-        if(tmp.equals("notfisClick")) {
-            notfi.setTextColor(getResources().getColor(R.color._white, null));
-        }
-        else if(tmp.equals("eventsClick")){
-            event.setTextColor(getResources().getColor(R.color._white,null));
-        }
-        else if(tmp.equals("friendsClick")){
-            friend.setTextColor(getResources().getColor(R.color._white,null));
-        }
+    private void setDisable(int id){
+        tabs[id][0].setTextColor(getResources().getColor(R.color.trans_white, null));
     }
 
 
@@ -222,21 +212,36 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    public void setAdapter(int i){
+        switch (i){
+            case 0:
+                setNotifis();
+                break;
+            case 1:
+                setEvents();
+                break;
+            case 2:
+                setFriends();
+                break;
+        }
+    }
+
     private void setNotifis(){
         mAdapter = new NotifiAdapter(user.getNotifis());
         recycleProfile.setAdapter(mAdapter);
-        actual_card=1;
+        actual_card=0;
     }
 
     private void setEvents(){
         mAdapter = new EventAdapter(user.getEvents());
         recycleProfile.setAdapter(mAdapter);
-        actual_card=2;
+        actual_card=1;
     }
 
     private void setFriends(){
+        recycleProfile.setAdapter(new NotifiAdapter(new ArrayList<Notifi>()));
         Toast.makeText(getContext(), "Soon", Toast.LENGTH_SHORT).show();
-        //actual_card=3;
+        actual_card=2;
     }
 
     private void getProfile(String id){
@@ -260,13 +265,11 @@ public class ProfileFragment extends Fragment {
                     user.setEvents(events);
                     //TEST
 
-                    int tmp = user.getNotifis().size();
-                    if(tmp>99)
-                        numberNotfi.setText("99+");
-                    else
-                        numberNotfi.setText(String.valueOf(tmp));
+                    tabs[0][1].setText(numberRepairNineNine(user.getNotifis().size()));
+                    tabs[1][1].setText(numberRepairNineNine(user.getEvents().size()));
+                    tabs[2][1].setText("0");
 
-                    //TODO add number of events and friends
+                    //TODO add number of friends
 
                     setNotifis();
                 }
@@ -276,6 +279,25 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
             }
+
+            public String numberRepairNineNine(int number){
+                if(number>99)
+                    return "99+";
+                else
+                    return String.valueOf(number);
+            }
         });
+    }
+
+    public class TabListnear implements View.OnClickListener {
+        int id;
+
+        public TabListnear(int id) {
+            this.id = id;
+        }
+
+        @Override
+        public void onClick(View v) {
+        }
     }
 }
