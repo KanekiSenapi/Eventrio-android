@@ -40,6 +40,8 @@ import retrofit2.Response;
 public class ProfileFragment extends Fragment {
     private static final String TAG = "ProfileFragment.java";
 
+    private LinearLayout containerMain;
+
     private TextView profileName;
     private TextView profileStatus;
     private ImageView profileImage;
@@ -52,9 +54,6 @@ public class ProfileFragment extends Fragment {
     private ImageView profileBack;
 
     private RecyclerView recycleProfile;
-
-
-
 
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -91,8 +90,9 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         service = ServiceGenerator.createService(UserInterface.class, getString(R.string.apiUser), getString(R.string.apiPassword));
-
         super.onViewCreated(view, savedInstanceState);
+
+        containerMain = view.findViewById(R.id.containerMain);
         profileImage = view.findViewById(R.id.profileImage);
         profileName = view.findViewById(R.id.profileName);
         profileStatus = view.findViewById(R.id.profileStatus);
@@ -149,7 +149,7 @@ public class ProfileFragment extends Fragment {
             }
 
             @Override
-            public void onSwipeLeft() {
+            public void onSwipeLeft() {//To left
                 if(actual_card<2){
                     setDisable(actual_card);
                     tabs[actual_card+1][0].setTextColor(getResources().getColor(R.color._white,null));
@@ -165,6 +165,13 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onSwipeTop() {
                 super.onSwipeTop();
+            }
+        });
+
+        containerMain.setOnTouchListener(new OnSwipeTouchListener(getActivity()){
+            @Override
+            public void onSwipeLeft() {
+                getActivity().onBackPressed();
             }
         });
 
