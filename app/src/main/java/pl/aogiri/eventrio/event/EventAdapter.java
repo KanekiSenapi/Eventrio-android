@@ -53,8 +53,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>{
     @Override
     public EventAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                        int viewType) {
-
-
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_event, parent, false);
         EventAdapter.ViewHolder pvh = new EventAdapter.ViewHolder(v);
         return pvh;
