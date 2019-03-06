@@ -8,11 +8,12 @@
 
     <LinearLayout
         android:id="@+id/containerMain"
-        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/cardview_light_background">
+        android:background="@color/cardview_light_background"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -92,15 +93,16 @@
             android:weightSum="99">
 
             <LinearLayout
+                android:id="@+id/notfisClick"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="33"
                 android:background="#ca555e"
+                android:clickable="true"
+                android:focusable="true"
                 android:orientation="horizontal"
                 android:paddingHorizontal="8dp"
-                android:paddingVertical="10dp"
-                android:clickable="true"
-                android:id="@+id/notfisClick">
+                android:paddingVertical="10dp">
 
                 <TextView
                     android:id="@+id/numberNotfi"
@@ -108,7 +110,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="99"
-                    android:textAlignment="viewStart"
+                    android:textAlignment="center"
                     android:textColor="@color/cardview_light_background"
                     android:textSize="16sp" />
 
@@ -116,7 +118,7 @@
                     android:id="@+id/notfi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_weight="1"
                     android:text="@string/notification"
                     android:textAlignment="viewStart"
@@ -124,15 +126,16 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/eventsClick"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="33"
                 android:background="#ca555e"
+                android:clickable="true"
+                android:focusable="true"
                 android:orientation="horizontal"
                 android:paddingHorizontal="8dp"
-                android:paddingVertical="10dp"
-                android:clickable="true"
-                android:id="@+id/eventsClick">
+                android:paddingVertical="10dp">
 
                 <TextView
                     android:id="@+id/numberEvents"
@@ -140,7 +143,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="9999"
-                    android:textAlignment="viewStart"
+                    android:textAlignment="center"
                     android:textColor="@color/cardview_light_background"
                     android:textSize="16sp" />
 
@@ -148,7 +151,7 @@
                     android:id="@+id/event"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_weight="1"
                     android:text="@string/mEvents"
                     android:textAlignment="viewStart"
@@ -156,15 +159,16 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/friendsClick"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="33"
                 android:background="#ca555e"
+                android:clickable="true"
+                android:focusable="true"
                 android:orientation="horizontal"
                 android:paddingHorizontal="8dp"
-                android:paddingVertical="10dp"
-                android:clickable="true"
-                android:id="@+id/friendsClick">
+                android:paddingVertical="10dp">
 
                 <TextView
                     android:id="@+id/numberFriends"
@@ -172,7 +176,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="9999"
-                    android:textAlignment="viewStart"
+                    android:textAlignment="center"
                     android:textColor="@color/cardview_light_background"
                     android:textSize="16sp" />
 
@@ -189,15 +193,43 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycleProfile"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical">
+            android:orientation="horizontal"
+            android:weightSum="1">
 
-        </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleProfile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scrollbars="vertical">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleEvents"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:scrollbars="vertical">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleFriends"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:scrollbars="vertical">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
 
     </LinearLayout>
+
 
     <ImageView
         android:id="@+id/profileBack"
@@ -209,5 +241,13 @@
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:clickable="true"/>
+
+    <ImageView
+        android:id="@+id/newEvent"
+        android:layout_width="49dp"
+        android:layout_height="69dp"
+        android:layout_gravity="end"
+        android:clickable="true"
+        android:src="@color/colorAccent" />
 
 </FrameLayout>

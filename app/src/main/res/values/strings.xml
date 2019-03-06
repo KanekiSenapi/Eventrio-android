@@ -22,6 +22,23 @@
 
     <string name="apiUser">admin</string>
     <string name="apiPassword">password</string>
+    <string name="CreateAnEvent">Create an event</string>
+    <string name="eventName">Event name</string>
+    <string name="eventNameHint">Enter the name of the event not longer than 40 characters.</string>
+    <string name="eventDateBeg">Start date</string>
+    <string name="eventDateBegHint">eventDateBegHint</string>
+    <string name="eventDateEnd">End date</string>
+    <string name="eventDateEndHint">eventDateEndHint</string>
+    <string name="eventDescription">eventDescription</string>
+    <string name="eventDescriptionHint">eventDescriptionHint</string>
+    <string name="eventAddress">eventAddress</string>
+    <string name="eventAddressHint">eventAddressHint</string>
+    <string name="eventTagsHint">eventTagsi</string>
+    <string name="eventTags">eventTags</string>
+    <string name="eventImageHint">eventImageHint</string>
+    <string name="eventImage">eventImage</string>
+    <string name="termsPrivatePolicy">Terms and private policy</string>
+    <string name="checkBoxMarketing">Marketing</string>
 
 
 </resources>

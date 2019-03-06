@@ -52,8 +52,11 @@ public class ProfileFragment extends Fragment {
     private LinearLayout[] tabs2 = new LinearLayout[3];
 
     private ImageView profileBack;
+    private ImageView newEvent;
 
     private RecyclerView recycleProfile;
+
+    private RecyclerView[] recyclerViews = new RecyclerView[3];
 
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -99,7 +102,7 @@ public class ProfileFragment extends Fragment {
         profileSettings = view.findViewById(R.id.profileSettings);
         recycleProfile = view.findViewById(R.id.recycleProfile);
         profileBack = view.findViewById(R.id.profileBack);
-
+        newEvent = view.findViewById(R.id.newEvent);
 
         tabs[0][0] = view.findViewById(R.id.notfi);
         tabs[1][0] = view.findViewById(R.id.event);
@@ -112,6 +115,10 @@ public class ProfileFragment extends Fragment {
         tabs2[0] = view.findViewById(R.id.notfisClick);
         tabs2[1] = view.findViewById(R.id.eventsClick);
         tabs2[2] = view.findViewById(R.id.friendsClick);
+
+        recyclerViews[0] = view.findViewById(R.id.recycleProfile);
+        recyclerViews[1] = view.findViewById(R.id.recycleEvents);
+        recyclerViews[2] = view.findViewById(R.id.recycleFriends);
 
         profileBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,12 +146,27 @@ public class ProfileFragment extends Fragment {
 
         //TODO create animation slide maybe create 3 containers preloaded
         recycleProfile.setOnTouchListener(new OnSwipeTouchListener(getActivity()){
+
             @Override
             public void onSwipeRight() {//To right
                 if(actual_card>0){
                     setDisable(actual_card);
                     tabs[actual_card-1][0].setTextColor(getResources().getColor(R.color._white,null));
                     setAdapter(actual_card-1);
+
+//                    final ValueAnimator animator = ValueAnimator.ofFloat(0.0f, 1f);
+//                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//                        @Override
+//                        public void onAnimationUpdate(ValueAnimator animation) {
+//                            float value = (float) animation.getAnimatedValue();
+//
+//                            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) recycleProfile[].getLayoutParams();
+//                            params.weight = value;
+//                            detailsMax.setLayoutParams(params);
+//                        }
+//
+//                    });
+//                    animator.start();
                 }
             }
 
@@ -172,6 +194,13 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onSwipeLeft() {
                 getActivity().onBackPressed();
+            }
+        });
+
+        newEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Todo activity new event
             }
         });
 
@@ -287,7 +316,7 @@ public class ProfileFragment extends Fragment {
             public void onFailure(Call<User> call, Throwable t) {
             }
 
-            public String numberRepairNineNine(int number){
+            private String numberRepairNineNine(int number){
                 if(number>99)
                     return "99+";
                 else
@@ -299,7 +328,7 @@ public class ProfileFragment extends Fragment {
     public class TabListnear implements View.OnClickListener {
         int id;
 
-        public TabListnear(int id) {
+        private TabListnear(int id) {
             this.id = id;
         }
 

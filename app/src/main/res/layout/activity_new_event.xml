@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewEvent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#dc6770"
+            android:gravity="center"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="@string/CreateAnEvent"
+                android:textColor="@color/_white"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <EditText
+                android:id="@+id/eventName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/eventNameHint"
+                android:inputType="textPersonName"
+                android:text="@string/eventName"
+                style="@style/formEditText"/>
+
+            <EditText
+                android:id="@+id/eventDateBeg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/formEditText"
+                android:ems="10"
+                android:hint="@string/eventDateBegHint"
+                android:inputType="date"
+                android:text="@string/eventDateBeg" />
+
+            <EditText
+                android:id="@+id/eventDateEnd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/eventDateEndHint"
+                android:inputType="date"
+                android:text="@string/eventDateEnd"
+                style="@style/formEditText" />
+
+            <EditText
+                android:id="@+id/eventAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/eventAddressHint"
+                android:inputType="textAutoComplete"
+                android:text="@string/eventAddress"
+                style="@style/formEditText" />
+
+            <EditText
+                android:id="@+id/eventDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/formEditText"
+                android:gravity="top|left"
+                android:hint="@string/eventDescriptionHint"
+                android:inputType="textMultiLine"
+                android:lines="8"
+                android:minLines="6"
+                android:scrollbars="vertical"
+                android:text="@string/eventDescription" />
+
+            <EditText
+                android:id="@+id/eventTags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/formEditText"
+                android:ems="10"
+                android:hint="@string/eventTagsHint"
+                android:inputType="textAutoComplete"
+                android:text="@string/eventTags" />
+
+            <EditText
+                android:id="@+id/eventImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/formEditText"
+                android:ems="10"
+                android:hint="@string/eventImageHint"
+                android:inputType="textAutoComplete"
+                android:text="@string/eventImage" />
+
+            <CheckBox
+                android:id="@+id/checkBoxPrivatePolicy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/termsPrivatePolicy"
+                style="@style/formEditText"
+                />
+
+            <CheckBox
+                android:id="@+id/checkBox2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/checkBoxMarketing"
+                style="@style/formEditText"/>
+
+            <Button
+                android:id="@+id/createEventButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create"
+                style="@style/formEditText"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
