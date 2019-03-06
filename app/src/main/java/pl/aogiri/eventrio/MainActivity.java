@@ -59,6 +59,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         CONTEXT =  getApplicationContext();
+        startMap();
+
         service = ServiceGenerator.createService(UserInterface.class, "admin", "password");
         sharedPref = CONTEXT.getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
