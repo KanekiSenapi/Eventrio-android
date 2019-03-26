@@ -102,12 +102,6 @@ public class MainActivity extends Activity {
         }
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        callbackManager.onActivityResult(requestCode, resultCode, data);
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
-
 
     private boolean checkUserExist(){
         Call<User> userCall = service.getUserByFbid(accessToken.getUserId());
@@ -140,6 +134,7 @@ public class MainActivity extends Activity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 saveToMemory(response.body());
+                startMap();
             }
 
             @Override
