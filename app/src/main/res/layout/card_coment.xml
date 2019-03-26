@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/commentImage"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginRight="12dp"
             android:layout_weight="0"
             android:scaleType="fitCenter"
@@ -35,17 +35,18 @@
                 android:id="@+id/commentUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
+                android:paddingBottom="2dp"
+                android:text="Michał Oprych"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/commentContent"
+                style="@style/text_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/text_details"
-                android:padding="0dp"
-                android:layout_margin="0dp"/>
+                android:layout_margin="0dp"
+                android:padding="0dp" />
 
 
         </LinearLayout>

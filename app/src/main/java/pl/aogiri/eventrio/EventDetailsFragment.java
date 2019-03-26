@@ -21,6 +21,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -34,14 +38,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link EventDetailsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link EventDetailsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class EventDetailsFragment extends Fragment {
 
     private static final String TAG = "EventDetailsFragment";
@@ -53,6 +49,7 @@ public class EventDetailsFragment extends Fragment {
     private ImageView eventImage;
     private LinearLayout containter;
     private TextView eventDescription;
+    private ImageView eventOrganizer;
     private LinearLayout containterTags;
     private RecyclerView recycleComments;
     private RecyclerView.Adapter mAdapter;
@@ -69,7 +66,6 @@ public class EventDetailsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public EventDetailsFragment() {
-        // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
@@ -82,25 +78,24 @@ public class EventDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e(TAG, "Created");
-        //Create interface for connection
-        service = ServiceGenerator.createService(EventInterface.class, "admin", "password");
+        service = ServiceGenerator.createService(EventInterface.class, getString(R.string.api_login),getString(R.string.api_password));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_event_details, container, false);
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         eventName = view.findViewById(R.id.eventName);
         eventTime = view.findViewById(R.id.eventTime);
         eventImage = view.findViewById(R.id.eventImage);
         eventAddress = view.findViewById(R.id.eventAddress);
+        eventOrganizer = view.findViewById(R.id.eventOrganizer);
         containter = view.findViewById(R.id.container);
         details = view.findViewById(R.id.details);
         toBack = view.findViewById(R.id.toBack);
@@ -112,9 +107,6 @@ public class EventDetailsFragment extends Fragment {
 
         mLayoutManager = new LinearLayoutManager(view.getContext());
         recycleComments.setLayoutManager(mLayoutManager);
-
-        // specify an adapter (see also next example)
-
 
         eventImage.setImageResource(R.drawable.testevent);
 
@@ -236,6 +228,11 @@ public class EventDetailsFragment extends Fragment {
             eventCall.enqueue(new Callback<Event>() {
                 @Override
                 public void onResponse(Call<Event> call, Response<Event> response) {
+                    if(response.code()==204)
+                    {
+                        Toast.makeText(getContext(), "Ola Boga zjebało sie :C", Toast.LENGTH_SHORT).show();
+                    }
+
                     Event event = response.body();
 
                     eventName.setText(event.getName());
@@ -253,8 +250,11 @@ public class EventDetailsFragment extends Fragment {
 
                         containterTags.addView(tmp,layoutParams);
                     }
+
+                    Glide.with(view).load(event.getOrganizer().getPicture()).apply(RequestOptions.circleCropTransform()).into(eventOrganizer);
+//                    eventOrganizer.(event.getOrganizer().getPseudonym());
                     List<Comment> comments = event.getComments();
-                    mAdapter = new CommentAdapter(event.getComments());
+                    mAdapter = new CommentAdapter(comments);
                     recycleComments.setAdapter(mAdapter);
 
 

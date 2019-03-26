@@ -162,7 +162,7 @@ public class MainActivity extends Activity {
                     public void onCompleted(
                               JSONObject object,
                             GraphResponse response) {
-
+                        Log.e(TAG,response.getRawResponse());
                         JsonParser parser = new JsonParser();
                         JsonElement mJson =  parser.parse(response.getRawResponse());
 

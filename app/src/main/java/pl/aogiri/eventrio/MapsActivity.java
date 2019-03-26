@@ -139,16 +139,9 @@ public class MapsActivity extends FragmentActivity implements
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             return;
         }else{
-            //TODO
-            // Construct a GeoDataClient.
             mGeoDataClient = Places.getGeoDataClient(this);
-
-            // Construct a PlaceDetectionClient.
             mPlaceDetectionClient = Places.getPlaceDetectionClient(this );
-
-            // Construct a FusedLocationProviderClient.
             mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-            //
             mMap.setMyLocationEnabled(true);
             getDeviceLocation();
         }
@@ -177,7 +170,6 @@ public class MapsActivity extends FragmentActivity implements
         Bundle bundle = new Bundle();
         bundle.putString("id",marker.getTitle());
         fragment.setArguments(bundle);
-//        fragment.setEnterTransition(android.R.transition.slide_bottom);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.slide_up, R.anim.slide_down,R.anim.slide_up, R.anim.slide_down);
         if(fragment.isAdded()){
@@ -213,7 +205,6 @@ public class MapsActivity extends FragmentActivity implements
                     @Override
                     public void onComplete(Task<Location> task) {
                         if (task.isSuccessful()) {
-                            // Set the map's camera position to the current location of the device.
                             mLastKnownLocation = task.getResult();
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                     new LatLng(mLastKnownLocation.getLatitude(),
@@ -221,7 +212,6 @@ public class MapsActivity extends FragmentActivity implements
                         } else {
                             Log.d(TAG, "Current location is null. Using defaults.");
                             Log.e(TAG, "Exception: %s", task.getException());
-//                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
                             mMap.getUiSettings().setMyLocationButtonEnabled(false);
                         }
                     }
@@ -263,7 +253,6 @@ public class MapsActivity extends FragmentActivity implements
                 for(int i = 0 ; i < response.body().size() ; i++){
                     Event event = response.body().get(i);
                     String name = event.getId();
-//                    byte[] image = event.getImage();
                     LatLng latLng = new LatLng(event.getLat(),event.getLng());
                     createMark(name,latLng,null);
                     events.add(event);
@@ -323,7 +312,6 @@ public class MapsActivity extends FragmentActivity implements
                 .data(list)
                 .gradient(gradient)
                 .build();
-        // Add a tile overlay to the map, using the heat map tile provider.
         mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
     }
 
