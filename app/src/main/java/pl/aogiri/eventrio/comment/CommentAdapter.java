@@ -52,7 +52,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     }
 
     public CommentAdapter(List<Comment> myDataset) {
-
         mDataset = myDataset;
     }
 
@@ -75,7 +74,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         requestManager.load(user.getPicture()).apply(RequestOptions.circleCropTransform()).into(holder.commentImage);
         holder.commentUser.setText(comment.getCommentator().getPseudonym());
         holder.commentContent.setText(comment.getContent());
-           }
+    }
 
     @Override
     public int getItemCount() {

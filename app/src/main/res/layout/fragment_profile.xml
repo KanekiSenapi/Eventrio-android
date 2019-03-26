@@ -194,13 +194,15 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/recycleBox"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="1">
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="1000">
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycleProfile"
+                android:id="@+id/recycleNotifis"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

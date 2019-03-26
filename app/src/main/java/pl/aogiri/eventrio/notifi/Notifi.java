@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class Notifi {
 
-    private String id;
+    private Integer id;
 
     private String title;
 
@@ -20,7 +20,7 @@ public class Notifi {
     public Notifi() {
     }
 
-    public Notifi(String id, String title, String date, boolean showed, String category) {
+    public Notifi(Integer id, String title, String date, boolean showed, String category) {
         this.id = id;
         this.title = title;
         this.date = date;
@@ -28,11 +28,11 @@ public class Notifi {
         this.category = category;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
