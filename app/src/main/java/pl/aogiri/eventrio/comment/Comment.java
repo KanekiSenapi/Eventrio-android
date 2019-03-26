@@ -1,8 +1,6 @@
 package pl.aogiri.eventrio.comment;
 
 
-import java.time.Instant;
-
 import pl.aogiri.eventrio.user.User;
 
 public class Comment {

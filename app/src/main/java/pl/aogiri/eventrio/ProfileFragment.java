@@ -93,7 +93,7 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        service = ServiceGenerator.createService(UserInterface.class, getString(R.string.apiUser), getString(R.string.apiPassword));
+        service = ServiceGenerator.createService(UserInterface.class, getString(R.string.api_login), getString(R.string.api_password));
         super.onViewCreated(view, savedInstanceState);
 
         containerMain = view.findViewById(R.id.containerMain);

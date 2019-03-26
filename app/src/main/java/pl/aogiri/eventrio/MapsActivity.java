@@ -48,7 +48,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.maps.android.heatmaps.Gradient;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import pl.aogiri.eventrio.event.Event;
@@ -120,7 +122,7 @@ public class MapsActivity extends FragmentActivity implements
 
 
         //Create interface for connection
-        service = ServiceGenerator.createService(EventInterface.class, "admin", "password");
+        service = ServiceGenerator.createService(EventInterface.class, "admin", "f57624a2-fc4c-4d94-8264-c69cf8be676d");
 
         //Get data from api
         Call<List<Event>> callEvents = service.listEvents();
@@ -186,35 +188,18 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     public void onCameraMoveStarted(int reason) {
-//        if (reason == OnCameraMoveStartedListener.REASON_GESTURE) {
-//            Toast.makeText(this, "The user gestured on the map.",
-//                    Toast.LENGTH_SHORT).show();
-//        } else if (reason == OnCameraMoveStartedListener
-//                .REASON_API_ANIMATION) {
-//            Toast.makeText(this, "The user tapped something on the map.",
-//                    Toast.LENGTH_SHORT).show();
-//        } else if (reason == OnCameraMoveStartedListener
-//                .REASON_DEVELOPER_ANIMATION) {
-//            Toast.makeText(this, "The app moved the camera.",
-//                    Toast.LENGTH_SHORT).show();
-//        }
     }
 
     @Override
     public void onCameraMove() {
-//        Toast.makeText(this, "The camera is moving.",
-//                Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onCameraMoveCanceled() {
-//        Toast.makeText(this, "Camera movement canceled.",
-//                Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onCameraIdle() {
-//        Toast.makeText(this, "The camera has stopped moving. Fetch the data from the server!", Toast.LENGTH_SHORT).show();
         LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
         fetchData(bounds);
     }
@@ -270,7 +255,7 @@ public class MapsActivity extends FragmentActivity implements
                     new MarkerOptions()
                             .title(title)
                             .position(position)
-                            .snippet("This is my stpo!")
+                            .snippet("This is my stop!")
                             .icon(BitmapDescriptorFactory.fromBitmap(resize(getDrawable(R.drawable.default_icon))))
             );
         }
@@ -309,7 +294,9 @@ public class MapsActivity extends FragmentActivity implements
         double E = bounds.northeast.longitude;
         double S = bounds.southwest.latitude;
         double W = bounds.southwest.longitude;
-        Call<List<Event>> eventCall = service.listEventsBox(N,E,S,W);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.0'Z'");
+        String currentDateandTime = sdf.format(new Date());
+        Call<List<Event>> eventCall = service.listEventsBox(N,E,S,W,currentDateandTime);
 
         eventCall.enqueue(new Callback<List<Event>>() {
             @Override
