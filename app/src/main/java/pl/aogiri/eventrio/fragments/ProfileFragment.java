@@ -1,4 +1,4 @@
-package pl.aogiri.eventrio;
+package pl.aogiri.eventrio.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +26,10 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.aogiri.eventrio.OnSwipeTouchListener;
+import pl.aogiri.eventrio.R;
+import pl.aogiri.eventrio.ServiceGenerator;
+import pl.aogiri.eventrio.activity.NewEvent;
 import pl.aogiri.eventrio.event.Event;
 import pl.aogiri.eventrio.event.EventAdapter;
 import pl.aogiri.eventrio.notifi.Notifi;

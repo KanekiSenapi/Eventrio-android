@@ -1,4 +1,4 @@
-package pl.aogiri.eventrio;
+package pl.aogiri.eventrio.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,6 +27,8 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
+import pl.aogiri.eventrio.R;
+import pl.aogiri.eventrio.ServiceGenerator;
 import pl.aogiri.eventrio.user.User;
 import pl.aogiri.eventrio.user.UserInterface;
 import retrofit2.Call;

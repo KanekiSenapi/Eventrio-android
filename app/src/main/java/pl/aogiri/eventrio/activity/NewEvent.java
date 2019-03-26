@@ -1,4 +1,4 @@
-package pl.aogiri.eventrio;
+package pl.aogiri.eventrio.activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
+
+import pl.aogiri.eventrio.R;
 
 public class NewEvent extends AppCompatActivity {
 

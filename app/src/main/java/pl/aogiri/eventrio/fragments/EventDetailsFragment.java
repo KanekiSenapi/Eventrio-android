@@ -1,5 +1,5 @@
 
-package pl.aogiri.eventrio;
+package pl.aogiri.eventrio.fragments;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -28,6 +28,9 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
+import pl.aogiri.eventrio.OnSwipeTouchListener;
+import pl.aogiri.eventrio.R;
+import pl.aogiri.eventrio.ServiceGenerator;
 import pl.aogiri.eventrio.comment.Comment;
 import pl.aogiri.eventrio.comment.CommentAdapter;
 import pl.aogiri.eventrio.event.Event;

@@ -1,4 +1,4 @@
-package pl.aogiri.eventrio;
+package pl.aogiri.eventrio.activity;
 
 import android.Manifest;
 import android.content.Context;
@@ -44,8 +44,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import pl.aogiri.eventrio.R;
+import pl.aogiri.eventrio.ServiceGenerator;
 import pl.aogiri.eventrio.event.Event;
 import pl.aogiri.eventrio.event.EventInterface;
+import pl.aogiri.eventrio.fragments.EventDetailsFragment;
+import pl.aogiri.eventrio.fragments.ProfileFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
