@@ -172,7 +172,7 @@ public class MainActivity extends Activity {
 
                 });
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "id, name, email, picture.type(large),");
+        parameters.putString("fields", "id, name, email, picture.type(large)");
         request.setParameters(parameters);
         request.executeAsync();
     }
