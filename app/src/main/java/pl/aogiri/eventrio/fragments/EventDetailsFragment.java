@@ -19,7 +19,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +44,8 @@ public class EventDetailsFragment extends Fragment {
 
     private static final String TAG = "EventDetailsFragment";
 
+    private static String ID;
+
     private TextView eventName;
     private TextView eventTime;
     private LinearLayout details;
@@ -59,8 +60,6 @@ public class EventDetailsFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
     private TextView eventAddress;
-    private RelativeLayout toBack;
-    private RelativeLayout containerForSwipe;
 
     private EventInterface service;
 
@@ -71,16 +70,16 @@ public class EventDetailsFragment extends Fragment {
     public EventDetailsFragment() {
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static EventDetailsFragment newInstance(String param1, String param2) {
+
+    public static EventDetailsFragment newInstance(String id) {
         EventDetailsFragment fragment = new EventDetailsFragment();
+        ID = id;
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e(TAG, "Created");
         service = ServiceGenerator.createService(EventInterface.class, getString(R.string.api_login),getString(R.string.api_password));
     }
 
@@ -101,8 +100,6 @@ public class EventDetailsFragment extends Fragment {
         eventOrganizer = view.findViewById(R.id.eventOrganizer);
         containter = view.findViewById(R.id.container);
         details = view.findViewById(R.id.details);
-        toBack = view.findViewById(R.id.toBack);
-        containerForSwipe = view.findViewById(R.id.containerForSwipe);
         detailsMax = view.findViewById(R.id.detailsmax);
         eventDescription = view.findViewById(R.id.eventDescription);
         containterTags = view.findViewById(R.id.containerTags);
@@ -134,8 +131,6 @@ public class EventDetailsFragment extends Fragment {
 
                     });
 
-
-                    //Load animation
                     Animation slide_down = AnimationUtils.loadAnimation(getContext(),
                             R.anim.slide_top_down);
                     slide_down.setAnimationListener(new Animation.AnimationListener() {
@@ -156,7 +151,6 @@ public class EventDetailsFragment extends Fragment {
 
                     eventImage.startAnimation(slide_down);
                     animator.start();
-                    //toBack.setBackgroundColor(0xFFf2f3f8);
 
 
 
@@ -182,7 +176,6 @@ public class EventDetailsFragment extends Fragment {
                         }
                     });
 
-                    //Load animation
                     Animation slide_down = AnimationUtils.loadAnimation(getContext(),
                             R.anim.slide_top_up);
                     slide_down.setAnimationListener(new Animation.AnimationListener() {
@@ -202,7 +195,6 @@ public class EventDetailsFragment extends Fragment {
 
                     eventImage.startAnimation(slide_down);
                     animator2.start();
-                    //toBack.setBackgroundColor(0x64000000);
 
 
                 }else{
@@ -212,28 +204,16 @@ public class EventDetailsFragment extends Fragment {
             }
         });
 
-//        toBack.setOnTouchListener(new OnSwipeTouchListener(getActivity()){
-//            @Override
-//            public void onClick() {
-//                full=false;
-//                exit();
-//
-//            }
-//        });
 
 
-        Bundle bundle = this.getArguments();
-
-        if (bundle != null) {
-            String i = bundle.getString("id", null);
-            Call<Event> eventCall = service.getEvent(i);
+            Call<Event> eventCall = service.getEvent(ID);
 
             eventCall.enqueue(new Callback<Event>() {
                 @Override
                 public void onResponse(Call<Event> call, Response<Event> response) {
                     if(response.code()==204)
                     {
-                        Toast.makeText(getContext(), "Ola Boga zjebało sie :C", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Error 204... try again", Toast.LENGTH_SHORT).show();
                     }
 
                     Event event = response.body();
@@ -268,19 +248,12 @@ public class EventDetailsFragment extends Fragment {
 
                 }
             });
-        }
-//       view.findViewById(R.id.toBack).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                exit();
-//            }
-//        });
 
 
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
+        exit();
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
@@ -300,18 +273,7 @@ public class EventDetailsFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 

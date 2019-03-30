@@ -102,7 +102,7 @@ public class MapsActivity extends FragmentActivity implements
 
         profileContainer = findViewById(R.id.profileContainer);
         imageButton = findViewById(R.id.imageButton);
-        fragment = new EventDetailsFragment();
+
 
 
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -171,9 +171,10 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Bundle bundle = new Bundle();
-        bundle.putString("id",marker.getTitle());
-        fragment.setArguments(bundle);
+        fragment = EventDetailsFragment.newInstance(marker.getTitle());
+//        Bundle bundle = new Bundle();
+//        bundle.putString("id",marker.getTitle());
+//        fragment.setArguments(bundle);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.slide_up, R.anim.slide_down,R.anim.slide_up, R.anim.slide_down);
         if(fragment.isAdded()){
@@ -191,12 +192,10 @@ public class MapsActivity extends FragmentActivity implements
 
     public void createMark(String title, LatLng position, String image){
         heatmap = false;
-
         mMap.addMarker(
                 new MarkerOptions()
                            .title(title)
                            .position(position)
-                           .snippet("This is my stop!")
                            .icon(BitmapDescriptorFactory.fromBitmap(resize(getDrawable(R.mipmap.placeholder))))
             );
     }

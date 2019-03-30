@@ -96,8 +96,9 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        service = ServiceGenerator.createService(UserInterface.class, getString(R.string.api_login), getString(R.string.api_password));
         super.onViewCreated(view, savedInstanceState);
+        service = ServiceGenerator.createService(UserInterface.class, getString(R.string.api_login), getString(R.string.api_password));
+
 
         containerMain = view.findViewById(R.id.containerMain);
         profileImage = view.findViewById(R.id.profileImage);
@@ -258,7 +259,6 @@ public class ProfileFragment extends Fragment {
     public void setAdapter(int i){
         switch (i){
             case 0:
-                Log.e(TAG,"NOTIGIG");
                 setNotifis();
                 break;
             case 1:
