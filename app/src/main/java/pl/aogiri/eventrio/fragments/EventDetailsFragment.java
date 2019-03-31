@@ -57,6 +57,7 @@ public class EventDetailsFragment extends Fragment {
     private TextView eventDescription;
     private ImageView eventOrganizer;
     private LinearLayout containterTags;
+    private TextView noComment;
     private RecyclerView recycleComments;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -106,6 +107,7 @@ public class EventDetailsFragment extends Fragment {
         detailsMax = view.findViewById(R.id.detailsmax);
         eventDescription = view.findViewById(R.id.eventDescription);
         containterTags = view.findViewById(R.id.containerTags);
+        noComment = view.findViewById(R.id.noComment);
         recycleComments = view.findViewById(R.id.recycleComments);
 
         mLayoutManager = new LinearLayoutManager(view.getContext());
@@ -242,6 +244,9 @@ public class EventDetailsFragment extends Fragment {
                         List<Comment> comments = event.getComments();
                         mAdapter = new CommentAdapter(comments);
                         recycleComments.setAdapter(mAdapter);
+                        if(comments.size()==0)
+                            noComment.setVisibility(View.VISIBLE);
+
                         LOAD.setVisibility(View.GONE);
                     }
                 }

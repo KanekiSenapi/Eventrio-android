@@ -148,21 +148,20 @@
                         android:layout_weight="0.0"
                         android:animateLayoutChanges="true"
                         android:background="@drawable/shape_detailsmax"
+                        android:clickable="true"
                         android:orientation="vertical"
                         android:paddingLeft="18dp"
                         android:paddingTop="0dp"
                         android:paddingRight="18dp"
                         android:paddingBottom="32dp"
-                        android:weightSum="100"
-                        android:clickable="true"
-                        >
+                        android:weightSum="100">
 
                         <ImageView
                             android:id="@+id/line"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:paddingBottom="18dp"
-                            android:background="@color/smth" />
+                            android:background="@color/smth"
+                            android:paddingBottom="18dp" />
 
                         <android.support.v4.widget.NestedScrollView
                             android:layout_width="match_parent"
@@ -216,10 +215,19 @@
                                     android:textSize="14sp"
                                     android:textStyle="bold" />
 
+                                <TextView
+                                    android:id="@+id/noComment"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/noComments"
+                                    android:textSize="18sp"
+                                    android:textStyle="italic"
+                                    android:visibility="gone" />
+
                                 <android.support.v7.widget.RecyclerView
                                     android:id="@+id/recycleComments"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"/>
+                                    android:layout_height="match_parent" />
                             </LinearLayout>
 
 

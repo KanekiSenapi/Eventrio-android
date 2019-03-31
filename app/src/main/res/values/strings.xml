@@ -36,6 +36,7 @@
     <string name="eventImage">eventImage</string>
     <string name="termsPrivatePolicy">Terms and private policy</string>
     <string name="checkBoxMarketing">Marketing</string>
+    <string name="noComments">No comments yet ... Be first</string>
 
 
 </resources>
