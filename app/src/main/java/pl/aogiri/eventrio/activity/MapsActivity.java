@@ -118,7 +118,7 @@ public class MapsActivity extends FragmentActivity implements
             }
         });
 
-        service = ServiceGenerator.createService(EventInterface.class, getString(R.string.api_login),getString(R.string.api_password));
+        service = ServiceGenerator.createService(EventInterface.class);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                             .findFragmentById(R.id.map);
@@ -172,9 +172,6 @@ public class MapsActivity extends FragmentActivity implements
     @Override
     public boolean onMarkerClick(Marker marker) {
         fragment = EventDetailsFragment.newInstance(marker.getTitle());
-//        Bundle bundle = new Bundle();
-//        bundle.putString("id",marker.getTitle());
-//        fragment.setArguments(bundle);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.slide_up, R.anim.slide_down,R.anim.slide_up, R.anim.slide_down);
         if(fragment.isAdded()){

@@ -1,7 +1,5 @@
 package pl.aogiri.eventrio;
 
-import android.text.TextUtils;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -13,6 +11,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServiceGenerator {
 
     public static final String API_BASE_URL = "http://192.168.1.17:8080/api/";
+    public static final String API_USERNAME = "";
+    public static final String API_PASSWORD = "";
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
@@ -27,34 +27,13 @@ public class ServiceGenerator {
     private static Retrofit retrofit = builder.build();
 
     public static <S> S createService(Class<S> serviceClass) {
-        return createService(serviceClass, null, null);
-    }
-
-    public static <S> S createService(
-            Class<S> serviceClass, String username, String password) {
-        if (!TextUtils.isEmpty(username)
-                && !TextUtils.isEmpty(password)) {
-            String authToken = Credentials.basic(username, password);
-            return createService(serviceClass, authToken);
-        }
-
-        return createService(serviceClass, null);
-    }
-
-    public static <S> S createService(
-            Class<S> serviceClass, final String authToken) {
-        if (!TextUtils.isEmpty(authToken)) {
             AuthenticationInterceptor interceptor =
-                    new AuthenticationInterceptor(authToken);
-
+                    new AuthenticationInterceptor(Credentials.basic(API_USERNAME, API_PASSWORD));
             if (!httpClient.interceptors().contains(interceptor)) {
                 httpClient.addInterceptor(interceptor);
-
                 builder.client(httpClient.build());
                 retrofit = builder.build();
             }
-        }
-
         return retrofit.create(serviceClass);
     }
 }

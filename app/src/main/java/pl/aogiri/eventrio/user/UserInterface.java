@@ -18,5 +18,7 @@ public interface UserInterface {
     @POST("users/fb/create")
     Call<User> createUserByFb(@Body Object userFB);
 
+    @POST("users/notifi/{nid}/seen")
+    Call<Void> setNotifiSeen(@Path("nid") Integer nid);
 
 }

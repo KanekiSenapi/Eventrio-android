@@ -7,10 +7,6 @@
     <string name="fb_login_protocol_scheme">fb543960872701904</string>
     <string name="facebook_application_id" translatable="false">543960872701904</string>
 
-    <string name="api_login"></string>
-    <string name="api_password"></string>
-
-
     <string name="preference_file_key">pl.aogiri.eventrio.settings</string>
     <string name="userData_fbid">userFBid</string>
     <string name="userData_userid">userid</string>

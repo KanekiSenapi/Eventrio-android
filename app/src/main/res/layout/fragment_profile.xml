@@ -52,6 +52,7 @@
 
             <Button
                 android:id="@+id/profileSettings"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -249,7 +250,12 @@
         android:layout_width="49dp"
         android:layout_height="69dp"
         android:layout_gravity="end"
+        android:src="@mipmap/add"
+        android:paddingTop="22dp"
+        android:paddingBottom="22dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         android:clickable="true"
-        android:src="@color/colorAccent" />
+        />
 
 </FrameLayout>

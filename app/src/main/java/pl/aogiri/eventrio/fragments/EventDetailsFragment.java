@@ -80,7 +80,7 @@ public class EventDetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        service = ServiceGenerator.createService(EventInterface.class, getString(R.string.api_login),getString(R.string.api_password));
+        service = ServiceGenerator.createService(EventInterface.class);
     }
 
     @Override

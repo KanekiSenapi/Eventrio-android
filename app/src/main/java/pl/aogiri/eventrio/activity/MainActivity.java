@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         CONTEXT =  getApplicationContext();
 
-        service = ServiceGenerator.createService(UserInterface.class, getString(R.string.api_login), getString(R.string.api_password));
+        service = ServiceGenerator.createService(UserInterface.class);
         sharedPref = CONTEXT.getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         editor = sharedPref.edit();

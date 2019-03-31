@@ -42,6 +42,8 @@ import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
     private static final String TAG = "ProfileFragment.java";
+    private static Context CONTEXT;
+    private static View VIEW;
 
     private LinearLayout containerMain;
 
@@ -97,8 +99,9 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        service = ServiceGenerator.createService(UserInterface.class, getString(R.string.api_login), getString(R.string.api_password));
-
+        service = ServiceGenerator.createService(UserInterface.class);
+        CONTEXT = view.getContext();
+        VIEW=view;
 
         containerMain = view.findViewById(R.id.containerMain);
         profileImage = view.findViewById(R.id.profileImage);
@@ -125,6 +128,12 @@ public class ProfileFragment extends Fragment {
         recyclerViews[1] = view.findViewById(R.id.recycleEvents);
         recyclerViews[2] = view.findViewById(R.id.recycleFriends);
 
+        profileSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(CONTEXT, "Soon", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         profileBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,7 +160,6 @@ public class ProfileFragment extends Fragment {
         }
 
 
-        //TODO create animation slide maybe create 3 containers preloaded
         recyclerView.setOnTouchListener(new OnSwipeTouchListener(getActivity()){
 
             @Override
@@ -211,12 +219,12 @@ public class ProfileFragment extends Fragment {
                 startActivity(i);
             }
         });
+    }
 
-        setProfile(view);
-
-
-
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        setProfile(VIEW);
     }
 
     private void setDisable(int id){
