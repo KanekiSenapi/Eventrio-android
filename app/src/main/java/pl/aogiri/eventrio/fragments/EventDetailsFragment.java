@@ -19,6 +19,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class EventDetailsFragment extends Fragment {
     private static final String TAG = "EventDetailsFragment";
 
     private static String ID;
+    private static ProgressBar LOAD;
 
     private TextView eventName;
     private TextView eventTime;
@@ -71,9 +73,10 @@ public class EventDetailsFragment extends Fragment {
     }
 
 
-    public static EventDetailsFragment newInstance(String id) {
+    public static EventDetailsFragment newInstance(String id, ProgressBar load) {
         EventDetailsFragment fragment = new EventDetailsFragment();
         ID = id;
+        LOAD = load;
         return fragment;
     }
 
@@ -211,36 +214,36 @@ public class EventDetailsFragment extends Fragment {
             eventCall.enqueue(new Callback<Event>() {
                 @Override
                 public void onResponse(Call<Event> call, Response<Event> response) {
-                    if(response.code()==204)
-                    {
+                    if(response.code()==204){
                         Toast.makeText(getContext(), "Error 204... try again", Toast.LENGTH_SHORT).show();
                     }
+                    else {
 
-                    Event event = response.body();
+                        Event event = response.body();
 
-                    eventName.setText(event.getName());
-                    eventTime.setText(event.getDateBeg());
-                    eventAddress.setText(event.getAddress());
-                    eventDescription.setText(event.getDescription());
-                    List<Tag> tags = event.getTags();
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    layoutParams.setMargins(10,0,10,0);
+                        eventName.setText(event.getName());
+                        eventTime.setText(event.getDateBeg());
+                        eventAddress.setText(event.getAddress());
+                        eventDescription.setText(event.getDescription());
+                        List<Tag> tags = event.getTags();
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        layoutParams.setMargins(10, 0, 10, 0);
 
-                    for(int i = 0 ; i < tags.size() ; i++){
-                        TextView tmp = new TextView(getContext(),null, 0 , R.style.tagigosz);
-                        tmp.setText(tags.get(i).getName());
-                        tmp.setBackgroundResource(R.drawable.button_tag);
+                        for (int i = 0; i < tags.size(); i++) {
+                            TextView tmp = new TextView(getContext(), null, 0, R.style.tagigosz);
+                            tmp.setText(tags.get(i).getName());
+                            tmp.setBackgroundResource(R.drawable.button_tag);
 
-                        containterTags.addView(tmp,layoutParams);
-                    }
+                            containterTags.addView(tmp, layoutParams);
+                        }
 
-                    Glide.with(view).load(event.getOrganizer().getPicture()).apply(RequestOptions.circleCropTransform()).into(eventOrganizer);
+                        Glide.with(view).load(event.getOrganizer().getPicture()).apply(RequestOptions.circleCropTransform()).into(eventOrganizer);
 //                    eventOrganizer.(event.getOrganizer().getPseudonym());
-                    List<Comment> comments = event.getComments();
-                    mAdapter = new CommentAdapter(comments);
-                    recycleComments.setAdapter(mAdapter);
-
-
+                        List<Comment> comments = event.getComments();
+                        mAdapter = new CommentAdapter(comments);
+                        recycleComments.setAdapter(mAdapter);
+                        LOAD.setVisibility(View.GONE);
+                    }
                 }
 
                 @Override

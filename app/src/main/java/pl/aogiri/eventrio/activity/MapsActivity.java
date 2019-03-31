@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -66,6 +67,7 @@ public class MapsActivity extends FragmentActivity implements
 
     private ImageView imageButton;
     private FrameLayout profileContainer;
+    private ProgressBar load;
 
     // The entry points to the Places API.
     private GeoDataClient mGeoDataClient;
@@ -102,6 +104,7 @@ public class MapsActivity extends FragmentActivity implements
 
         profileContainer = findViewById(R.id.profileContainer);
         imageButton = findViewById(R.id.imageButton);
+        load = findViewById(R.id.load);
 
 
 
@@ -171,7 +174,8 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        fragment = EventDetailsFragment.newInstance(marker.getTitle());
+        load.setVisibility(View.VISIBLE);
+        fragment = EventDetailsFragment.newInstance(marker.getTitle(),load);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.slide_up, R.anim.slide_down,R.anim.slide_up, R.anim.slide_down);
         if(fragment.isAdded()){
@@ -183,8 +187,6 @@ public class MapsActivity extends FragmentActivity implements
                 .commit();
         return true;
     }
-
-
 
 
     public void createMark(String title, LatLng position, String image){
