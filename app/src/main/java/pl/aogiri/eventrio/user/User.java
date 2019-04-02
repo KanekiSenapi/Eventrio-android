@@ -22,6 +22,8 @@ public class User {
 
     private String fbid;
 
+    private String picture;
+
     private List<Notifi> notifis;
 
     private List<Event> events;
@@ -29,7 +31,7 @@ public class User {
     public User() {
     }
 
-    public User(String id, String email, String password, String pseudonym, String gender, String birthday,String fbid, List<Notifi> notifis, List<Event> events) {
+    public User(String id, String email, String password, String pseudonym, String gender, String birthday, String fbid, String picture, List<Notifi> notifis, List<Event> events) {
         super();
         this.id = id;
         this.email = email;
@@ -40,6 +42,7 @@ public class User {
         this.fbid = fbid;
         this.notifis = notifis;
         this.events = events;
+        this.picture = picture;
     }
 
     public String getId() {
@@ -112,5 +115,13 @@ public class User {
 
     public void setEvents(List<Event> events) {
         this.events = events;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }

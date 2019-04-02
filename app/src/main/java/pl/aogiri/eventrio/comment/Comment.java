@@ -1,32 +1,28 @@
 package pl.aogiri.eventrio.comment;
 
 
-import java.time.Instant;
-
 import pl.aogiri.eventrio.user.User;
 
 public class Comment {
 
     private String id;
 
-    private User user;
-
     private String content;
 
     private String date;
 
+    private User commentator;
 
 
     public Comment() {
         super();
     }
 
-    public Comment(String id, User user, String content, String date) {
-        super();
+    public Comment(String id, String content, String date, User commentator) {
         this.id = id;
-        this.user = user;
         this.content = content;
         this.date = date;
+        this.commentator = commentator;
     }
 
     public String getId() {
@@ -35,14 +31,6 @@ public class Comment {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getContent() {
@@ -61,4 +49,11 @@ public class Comment {
         this.date = date;
     }
 
+    public User getCommentator() {
+        return commentator;
+    }
+
+    public void setCommentator(User commentator) {
+        this.commentator = commentator;
+    }
 }

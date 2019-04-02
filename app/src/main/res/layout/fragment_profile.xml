@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+    tools:context=".fragments.ProfileFragment">
 
 
     <LinearLayout
@@ -52,6 +52,7 @@
 
             <Button
                 android:id="@+id/profileSettings"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -194,13 +195,15 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/recycleBox"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="1">
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="1000">
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycleProfile"
+                android:id="@+id/recycleNotifis"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -247,7 +250,12 @@
         android:layout_width="49dp"
         android:layout_height="69dp"
         android:layout_gravity="end"
+        android:src="@mipmap/add"
+        android:paddingTop="22dp"
+        android:paddingBottom="22dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         android:clickable="true"
-        android:src="@color/colorAccent" />
+        />
 
 </FrameLayout>

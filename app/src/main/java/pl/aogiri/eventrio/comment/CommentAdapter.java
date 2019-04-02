@@ -8,19 +8,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.List;
 
 import pl.aogiri.eventrio.R;
+import pl.aogiri.eventrio.user.User;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
+    private static final String TAG = "CommentAdapter.java" ;
     private List<Comment> mDataset;
+    private static RequestManager requestManager;
 
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
         CardView cv;
 
         private ImageView commentImage;
@@ -29,6 +32,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         public ViewHolder(final View vi) {
             super(vi);
+            requestManager = Glide.with(vi);
             cv = vi.findViewById(R.id.recycleComments);
 
             commentImage = vi.findViewById(R.id.commentImage);
@@ -47,13 +51,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
     public CommentAdapter(List<Comment> myDataset) {
-
         mDataset = myDataset;
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
     public CommentAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                         int viewType) {
@@ -66,19 +67,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Comment comment = mDataset.get(position);
-//        holder.commentImage.setImageResource(R.drawable.testevent);
-        holder.commentUser.setText(comment.getUser().getPseudonym());
+        User user = comment.getCommentator();
+        requestManager.load(user.getPicture()).apply(RequestOptions.circleCropTransform()).into(holder.commentImage);
+        holder.commentUser.setText(comment.getCommentator().getPseudonym());
         holder.commentContent.setText(comment.getContent());
+    }
 
-           }
-
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return mDataset.size();
     }
+
 }

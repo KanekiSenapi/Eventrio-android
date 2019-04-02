@@ -1,4 +1,4 @@
-package pl.aogiri.eventrio;
+package pl.aogiri.eventrio.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,9 +24,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import pl.aogiri.eventrio.event.Event;
+import pl.aogiri.eventrio.OnSwipeTouchListener;
+import pl.aogiri.eventrio.R;
+import pl.aogiri.eventrio.ServiceGenerator;
+import pl.aogiri.eventrio.activity.NewEvent;
 import pl.aogiri.eventrio.event.EventAdapter;
 import pl.aogiri.eventrio.notifi.Notifi;
 import pl.aogiri.eventrio.notifi.NotifiAdapter;
@@ -40,6 +42,8 @@ import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
     private static final String TAG = "ProfileFragment.java";
+    private static Context CONTEXT;
+    private static View VIEW;
 
     private LinearLayout containerMain;
 
@@ -48,6 +52,7 @@ public class ProfileFragment extends Fragment {
     private ImageView profileImage;
     private Button profileSettings;
     SharedPreferences sharedPref;
+    private LinearLayout recycleBox;
 
     private TextView[][] tabs = new TextView[3][3];
     private LinearLayout[] tabs2 = new LinearLayout[3];
@@ -55,10 +60,10 @@ public class ProfileFragment extends Fragment {
     private ImageView profileBack;
     private ImageView newEvent;
 
-    private RecyclerView recycleProfile;
 
     private RecyclerView[] recyclerViews = new RecyclerView[3];
 
+    private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -93,17 +98,19 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        service = ServiceGenerator.createService(UserInterface.class, getString(R.string.apiUser), getString(R.string.apiPassword));
         super.onViewCreated(view, savedInstanceState);
+        service = ServiceGenerator.createService(UserInterface.class);
+        CONTEXT = view.getContext();
+        VIEW=view;
 
         containerMain = view.findViewById(R.id.containerMain);
         profileImage = view.findViewById(R.id.profileImage);
         profileName = view.findViewById(R.id.profileName);
         profileStatus = view.findViewById(R.id.profileStatus);
         profileSettings = view.findViewById(R.id.profileSettings);
-        recycleProfile = view.findViewById(R.id.recycleProfile);
         profileBack = view.findViewById(R.id.profileBack);
         newEvent = view.findViewById(R.id.newEvent);
+        recycleBox = view.findViewById(R.id.recycleBox);
 
         tabs[0][0] = view.findViewById(R.id.notfi);
         tabs[1][0] = view.findViewById(R.id.event);
@@ -117,9 +124,16 @@ public class ProfileFragment extends Fragment {
         tabs2[1] = view.findViewById(R.id.eventsClick);
         tabs2[2] = view.findViewById(R.id.friendsClick);
 
-        recyclerViews[0] = view.findViewById(R.id.recycleProfile);
+        recyclerView = view.findViewById(R.id.recycleNotifis);
         recyclerViews[1] = view.findViewById(R.id.recycleEvents);
         recyclerViews[2] = view.findViewById(R.id.recycleFriends);
+
+        profileSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(CONTEXT, "Soon", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         profileBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,12 +141,13 @@ public class ProfileFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
-
-        mLayoutManager = new LinearLayoutManager(view.getContext());
-        recycleProfile.setLayoutManager(mLayoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+//        for (RecyclerView recyclerView1 : recyclerViews) {
+//            recyclerView1.setLayoutManager(new LinearLayoutManager(view.getContext()));
+//        }
 
         for(int i = 0 ; i < tabs2.length ; i++){
-            tabs2[i].setOnClickListener(new TabListnear(i) {
+            tabs2[i].setOnClickListener(new TabListener(i) {
                 public void onClick(View v) {
                     Log.e(TAG,"clicked" + actual_card + id);
                     if(actual_card!=id){
@@ -145,8 +160,7 @@ public class ProfileFragment extends Fragment {
         }
 
 
-        //TODO create animation slide maybe create 3 containers preloaded
-        recycleProfile.setOnTouchListener(new OnSwipeTouchListener(getActivity()){
+        recyclerView.setOnTouchListener(new OnSwipeTouchListener(getActivity()){
 
             @Override
             public void onSwipeRight() {//To right
@@ -205,12 +219,12 @@ public class ProfileFragment extends Fragment {
                 startActivity(i);
             }
         });
+    }
 
-        setProfile(view);
-
-
-
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        setProfile(VIEW);
     }
 
     private void setDisable(int id){
@@ -266,24 +280,24 @@ public class ProfileFragment extends Fragment {
 
     private void setNotifis(){
         mAdapter = new NotifiAdapter(user.getNotifis());
-        recycleProfile.setAdapter(mAdapter);
+        recyclerView.setAdapter(mAdapter);
         actual_card=0;
+
     }
 
     private void setEvents(){
         mAdapter = new EventAdapter(user.getEvents());
-        recycleProfile.setAdapter(mAdapter);
+        recyclerView.setAdapter(mAdapter);
         actual_card=1;
     }
 
     private void setFriends(){
-        recycleProfile.setAdapter(new NotifiAdapter(new ArrayList<Notifi>()));
+        recyclerView.setAdapter(new NotifiAdapter(new ArrayList<Notifi>()));
         Toast.makeText(getContext(), "Soon", Toast.LENGTH_SHORT).show();
         actual_card=2;
     }
 
     private void getProfile(String id){
-        Log.e(TAG,id);
         Call<User> call = service.getUser(id);
         call.enqueue(new Callback<User>() {
             @Override
@@ -293,15 +307,7 @@ public class ProfileFragment extends Fragment {
                     Toast.makeText(getContext(), "error" + response.raw(), Toast.LENGTH_LONG).show();
                 }else {
                     user = response.body();
-                    //TEST
-                    List<Event> events = new ArrayList<>();
-                    Event event = new Event();
-                    event.setName("Event I");
-                    event.setAddress("ul. Ta i ta, 32-011 Kraków");
-                    event.setDescription("Party hard in old russian style... Just get arras and vodka! Drink and hug everyone! Have fun at party at 365 days per year. I hope u will come with me to this great time!");
-                    events.add(event);
-                    user.setEvents(events);
-                    //TEST
+
 
                     tabs[0][1].setText(numberRepairNineNine(user.getNotifis().size()));
                     tabs[1][1].setText(numberRepairNineNine(user.getEvents().size()));
@@ -327,10 +333,10 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    public class TabListnear implements View.OnClickListener {
+    public class TabListener implements View.OnClickListener {
         int id;
 
-        private TabListnear(int id) {
+        private TabListener(int id) {
             this.id = id;
         }
 

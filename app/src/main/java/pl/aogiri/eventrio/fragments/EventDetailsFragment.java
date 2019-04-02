@@ -1,5 +1,5 @@
 
-package pl.aogiri.eventrio;
+package pl.aogiri.eventrio.fragments;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -19,11 +19,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
+import pl.aogiri.eventrio.OnSwipeTouchListener;
+import pl.aogiri.eventrio.R;
+import pl.aogiri.eventrio.ServiceGenerator;
 import pl.aogiri.eventrio.comment.Comment;
 import pl.aogiri.eventrio.comment.CommentAdapter;
 import pl.aogiri.eventrio.event.Event;
@@ -34,17 +41,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link EventDetailsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link EventDetailsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class EventDetailsFragment extends Fragment {
 
     private static final String TAG = "EventDetailsFragment";
+
+    private static String ID;
+    private static ProgressBar LOAD;
 
     private TextView eventName;
     private TextView eventTime;
@@ -53,14 +55,14 @@ public class EventDetailsFragment extends Fragment {
     private ImageView eventImage;
     private LinearLayout containter;
     private TextView eventDescription;
+    private ImageView eventOrganizer;
     private LinearLayout containterTags;
+    private TextView noComment;
     private RecyclerView recycleComments;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private TextView eventAddress;
-    private RelativeLayout toBack;
-    private RelativeLayout containerForSwipe;
 
     private EventInterface service;
 
@@ -69,52 +71,47 @@ public class EventDetailsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public EventDetailsFragment() {
-        // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static EventDetailsFragment newInstance(String param1, String param2) {
+
+    public static EventDetailsFragment newInstance(String id, ProgressBar load) {
         EventDetailsFragment fragment = new EventDetailsFragment();
+        ID = id;
+        LOAD = load;
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e(TAG, "Created");
-        //Create interface for connection
-        service = ServiceGenerator.createService(EventInterface.class, "admin", "password");
+        service = ServiceGenerator.createService(EventInterface.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_event_details, container, false);
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         eventName = view.findViewById(R.id.eventName);
         eventTime = view.findViewById(R.id.eventTime);
         eventImage = view.findViewById(R.id.eventImage);
         eventAddress = view.findViewById(R.id.eventAddress);
+        eventOrganizer = view.findViewById(R.id.eventOrganizer);
         containter = view.findViewById(R.id.container);
         details = view.findViewById(R.id.details);
-        toBack = view.findViewById(R.id.toBack);
-        containerForSwipe = view.findViewById(R.id.containerForSwipe);
         detailsMax = view.findViewById(R.id.detailsmax);
         eventDescription = view.findViewById(R.id.eventDescription);
         containterTags = view.findViewById(R.id.containerTags);
+        noComment = view.findViewById(R.id.noComment);
         recycleComments = view.findViewById(R.id.recycleComments);
 
         mLayoutManager = new LinearLayoutManager(view.getContext());
         recycleComments.setLayoutManager(mLayoutManager);
-
-        // specify an adapter (see also next example)
-
 
         eventImage.setImageResource(R.drawable.testevent);
 
@@ -139,8 +136,6 @@ public class EventDetailsFragment extends Fragment {
 
                     });
 
-
-                    //Load animation
                     Animation slide_down = AnimationUtils.loadAnimation(getContext(),
                             R.anim.slide_top_down);
                     slide_down.setAnimationListener(new Animation.AnimationListener() {
@@ -161,7 +156,6 @@ public class EventDetailsFragment extends Fragment {
 
                     eventImage.startAnimation(slide_down);
                     animator.start();
-                    //toBack.setBackgroundColor(0xFFf2f3f8);
 
 
 
@@ -187,7 +181,6 @@ public class EventDetailsFragment extends Fragment {
                         }
                     });
 
-                    //Load animation
                     Animation slide_down = AnimationUtils.loadAnimation(getContext(),
                             R.anim.slide_top_up);
                     slide_down.setAnimationListener(new Animation.AnimationListener() {
@@ -207,7 +200,6 @@ public class EventDetailsFragment extends Fragment {
 
                     eventImage.startAnimation(slide_down);
                     animator2.start();
-                    //toBack.setBackgroundColor(0x64000000);
 
 
                 }else{
@@ -217,47 +209,46 @@ public class EventDetailsFragment extends Fragment {
             }
         });
 
-//        toBack.setOnTouchListener(new OnSwipeTouchListener(getActivity()){
-//            @Override
-//            public void onClick() {
-//                full=false;
-//                exit();
-//
-//            }
-//        });
 
 
-        Bundle bundle = this.getArguments();
-
-        if (bundle != null) {
-            String i = bundle.getString("id", null);
-            Call<Event> eventCall = service.getEvent(i);
+            Call<Event> eventCall = service.getEvent(ID);
 
             eventCall.enqueue(new Callback<Event>() {
                 @Override
                 public void onResponse(Call<Event> call, Response<Event> response) {
-                    Event event = response.body();
-
-                    eventName.setText(event.getName());
-                    eventTime.setText(event.getDateBeg());
-                    eventAddress.setText(event.getAddress());
-                    eventDescription.setText(event.getDescription());
-                    List<Tag> tags = event.getTags();
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    layoutParams.setMargins(10,0,10,0);
-
-                    for(int i = 0 ; i < tags.size() ; i++){
-                        TextView tmp = new TextView(getContext(),null, 0 , R.style.tagigosz);
-                        tmp.setText(tags.get(i).getName());
-                        tmp.setBackgroundResource(R.drawable.button_tag);
-
-                        containterTags.addView(tmp,layoutParams);
+                    if(response.code()==204){
+                        Toast.makeText(getContext(), "Error 204... try again", Toast.LENGTH_SHORT).show();
                     }
-                    List<Comment> comments = event.getComments();
-                    mAdapter = new CommentAdapter(event.getComments());
-                    recycleComments.setAdapter(mAdapter);
+                    else {
 
+                        Event event = response.body();
 
+                        eventName.setText(event.getName());
+                        eventTime.setText(event.getDateBeg());
+                        eventAddress.setText(event.getAddress());
+                        eventDescription.setText(event.getDescription());
+                        List<Tag> tags = event.getTags();
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        layoutParams.setMargins(10, 0, 10, 0);
+
+                        for (int i = 0; i < tags.size(); i++) {
+                            TextView tmp = new TextView(getContext(), null, 0, R.style.tagigosz);
+                            tmp.setText(tags.get(i).getName());
+                            tmp.setBackgroundResource(R.drawable.button_tag);
+
+                            containterTags.addView(tmp, layoutParams);
+                        }
+
+                        Glide.with(view).load(event.getOrganizer().getPicture()).apply(RequestOptions.circleCropTransform()).into(eventOrganizer);
+//                    eventOrganizer.(event.getOrganizer().getPseudonym());
+                        List<Comment> comments = event.getComments();
+                        mAdapter = new CommentAdapter(comments);
+                        recycleComments.setAdapter(mAdapter);
+                        if(comments.size()==0)
+                            noComment.setVisibility(View.VISIBLE);
+
+                        LOAD.setVisibility(View.GONE);
+                    }
                 }
 
                 @Override
@@ -265,19 +256,12 @@ public class EventDetailsFragment extends Fragment {
 
                 }
             });
-        }
-//       view.findViewById(R.id.toBack).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                exit();
-//            }
-//        });
 
 
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
+        exit();
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
@@ -297,18 +281,7 @@ public class EventDetailsFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 

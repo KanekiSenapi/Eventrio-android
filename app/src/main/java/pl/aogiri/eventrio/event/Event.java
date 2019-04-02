@@ -1,9 +1,5 @@
 package pl.aogiri.eventrio.event;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import pl.aogiri.eventrio.comment.Comment;
@@ -96,14 +92,6 @@ public class Event {
     }
 
     public String getDateBeg() {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss.SSS'Z'");
-        Date result = null;
-        try {
-            result = df.parse(dateBeg);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        this.dateBeg = result.toString();
         return dateBeg;
     }
 
@@ -112,14 +100,6 @@ public class Event {
     }
 
     public String getDateEnd() {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss.SSS'Z'");
-        Date result = null;
-        try {
-            result = df.parse(dateEnd);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        this.dateEnd = result.toString();
         return dateEnd;
     }
 
